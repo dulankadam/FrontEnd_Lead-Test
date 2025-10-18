@@ -2,7 +2,7 @@ import React from "react";
 
 const DocumentsSection: React.FC = () => {
   const docs = [
-    { name: "Standard_Specs_v1.2.pdf", date: "2025-09-01" },
+    { name: "Standard_Specs.pdf", date: "2025-09-01" },
     { name: "Configuration_Guide.docx", date: "2025-08-15" },
   ];
 

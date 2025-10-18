@@ -378,7 +378,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var DocumentsSection = function DocumentsSection() {
   var docs = [{
-    name: "Standard_Specs_v1.2.pdf",
+    name: "Standard_Specs.pdf",
     date: "2025-09-01"
   }, {
     name: "Configuration_Guide.docx",
