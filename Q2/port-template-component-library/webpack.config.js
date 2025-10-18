@@ -1,41 +1,55 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: "development",
-  entry: "./src/index.tsx",
+  // Entry point: We will use a new entry file (index.ts) to export all components
+  entry: "./src/index.ts",
+  mode: "development", // Change to 'production' for production builds
+  // Output configuration for a library
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
-    clean: true,
+    filename: "index.js",
+    library: {
+      name: "PortEditorLibrary", // Global variable name if used via <script>
+      type: "umd", // Universal Module Definition (CJS, AMD, global)
+    },
+    clean: true, // Clean the output directory before emit.
   },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
+
+  // Modules (Loaders)
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
+      // Note: Tailwind CSS usage means styling is mostly inline via JS.
+      // If we used external CSS, we would include style-loader/css-loader here.
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-    }),
-  ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
-    compress: true,
-    port: 3000,
-    hot: true,
+
+  // Resolve extensions for imports
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
+
+  // Crucial for libraries: Don't bundle React or Lucide-React
+  externals: {
+    react: "react",
+    "react-dom": "react-dom",
+    "lucide-react": "lucide-react",
+  },
+
+  // Optimization is typically handled by --mode production,
+  // but we can add source maps for better debugging if needed.
+  devtool: "source-map",
 };
