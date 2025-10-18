@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#drawingSurface {
+  background: #000000;
+  display: block;
+  border: 1px solid #444;
+}
+#info {
+  position: linesolute;
+  top: 10px;
+  left: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+#info p {
+  margin: 5px 0;
+}
