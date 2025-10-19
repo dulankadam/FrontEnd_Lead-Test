@@ -1,5 +1,5 @@
 {
-  "name": "port-template-editor-library",
+  "name": "port-template",
   "version": "1.0.0",
   "description": "A reusable React component for hierarchical port template configuration.",
   "main": "dist/index.js",
@@ -11,8 +11,9 @@
     "dist"
   ],
   "scripts": {
-    "start": "webpack serve --config webpack.config.js",
-    "build": "webpack --config webpack.config.js"
+    "build:js": "webpack --config webpack.config.js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build": "npm run build:js && npm run build:types"
   },
   "keywords": [
     "react",
@@ -47,5 +48,12 @@
     "webpack": "^5.102.1",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
   }
 }
