@@ -17,11 +17,20 @@ Project Structure
 │   ├── utils/
 │   │   └── treeUtils.ts                 
 │   ├── types.ts                         
-│   ├── App.tsx                          
+│   ├── index.css                         
 │   └── index.tsx                        
-│
+├── public/
+│   └── index.html
+├── dist/
+│   └── ...build files
+├── .babelrc
+├── .gitignore  
+├── package-lock.json
 ├── package.json
-├── tsconfig.json                        
+├── postcss.config.cjs
+├── tailwind.config.cjs
+├── tsconfig.json 
+├── webpack.config.js                      
 └── README.md
 
 # Port Template Library (React + TypeScript + Tailwind)
@@ -31,7 +40,7 @@ A small component set demonstrating a hierarchical "Port Template" editor.
 ## Install & run
 
 1. `npm install`
-2. `npm run dev` (uses Vite)
+2. `npm run dev`
 
 ## Notes
 - Uses Tailwind for styling. See `tailwind.config.cjs`.

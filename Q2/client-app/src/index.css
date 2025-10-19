@@ -233,6 +233,7 @@
   cursor: pointer;
   transition: all 0.2s;
   border: 1px solid transparent;
+  border-color: gray;
 }
 
 /* Add Root Button (Top Left) - Styled to look like the blue outline '+' in the image */
@@ -730,7 +731,7 @@
   background-color: #ced4da;
   z-index: 5;
 }
-.root-item-connector-h{
+.root-item-connector-h {
   position: relative;
   background-color: #ced4da;
   top: 20px;
@@ -745,7 +746,7 @@
   bottom: auto;
 }
 
-.root-item-connector-h-last{
+.root-item-connector-h-last {
   position: relative;
   background-color: #ced4da;
   top: 7px;
