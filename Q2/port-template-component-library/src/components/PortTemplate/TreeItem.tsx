@@ -1,9 +1,9 @@
+// src/components/PortTemplate/TreeItem.tsx
+
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronRight, Plus, X } from "lucide-react";
-// Corrected import path assuming 'types' is in the root 'src' directory
 import { Port, MutationHandler } from "../../types";
 
-// 1. Define Props interface clearly
 interface Props {
   port: Port;
   depth: number;
@@ -13,11 +13,13 @@ interface Props {
 
 const TreeItem: React.FC<Props> = React.memo(
   ({ port, depth, mutationHandler, isLastRoot }) => {
+    // --- STATE DEFINITIONS (FIXED MISSING CODE) ---
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(port.name);
     const [isSelected, setIsSelected] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
+    // --- EFFECT HOOKS (FIXED MISSING CODE) ---
     useEffect(() => {
       setEditedName(port.name);
     }, [port.name]);
@@ -29,6 +31,7 @@ const TreeItem: React.FC<Props> = React.memo(
       }
     }, [isEditing]);
 
+    // --- HANDLERS (FIXED MISSING CODE) ---
     const saveName = useCallback(() => {
       const trimmed = editedName.trim();
       if (trimmed && trimmed !== port.name) {
@@ -41,7 +44,8 @@ const TreeItem: React.FC<Props> = React.memo(
       setIsEditing(false);
     }, [editedName, mutationHandler, port.id, port.name]);
 
-    const addChild = useCallback(() => {
+    const addChild = useCallback((e: React.MouseEvent) => {
+      e.stopPropagation();
       const newPort: Port = {
         id: `id-${Date.now()}`,
         name: "",
@@ -55,38 +59,37 @@ const TreeItem: React.FC<Props> = React.memo(
       });
     }, [mutationHandler, port.id]);
 
-    const remove = useCallback(() => {
+    const remove = useCallback((e: React.MouseEvent) => {
+      e.stopPropagation();
       mutationHandler({ type: "DELETE", targetId: port.id });
       setIsSelected(false);
     }, [mutationHandler, port.id]);
 
-    const toggleRO = useCallback(() => {
+    const toggleRO = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+      e.stopPropagation();
       mutationHandler({ type: "TOGGLE_READONLY", targetId: port.id });
     }, [mutationHandler, port.id]);
+    // ----------------------------------------------
 
     const hasChildren = port.children && port.children.length > 0;
+    const isRoot = depth === 0;
 
-    // CSS classes are conditionally applied based on component state/props
+    // --- CLASS DEFINITIONS (FIXED MISSING CODE) ---
     const itemWrapperClasses = [
       "tree-item-wrapper",
       depth > 0 ? "nested-item" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    ].filter(Boolean).join(" ");
 
     const itemContentClasses = [
       "tree-item-content",
       isSelected ? "is-selected" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    ].filter(Boolean).join(" ");
 
     const controlsContainerClasses = [
       "controls-container",
       isSelected ? "controls-visible" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    ].filter(Boolean).join(" ");
+    // ----------------------------------------------
 
     return (
       <div
@@ -98,21 +101,27 @@ const TreeItem: React.FC<Props> = React.memo(
         }}
       >
         {/* Connectors (Vertical and Horizontal lines) */}
+        
+        {/* Render H and V connectors for nested items (depth > 0) */}
         {depth > 0 && (
           <>
-            <div
-              className={`connector-h ${
-                isSelected ? "connector-selected" : ""
-              }`}
-            />
-            <div
-              className={`connector-v ${
-                isSelected ? "connector-selected" : ""
-              } ${isLastRoot ? "connector-v-last" : ""}`}
-            />
+            <div className={`connector-h ${isSelected ? "connector-selected" : ""}`} />
+            <div className={`connector-v ${isSelected ? "connector-selected" : ""} ${isLastRoot ? "connector-v-last" : ""}`} />
           </>
         )}
-
+        
+        {/* FIX: Vertical line for all Root items except the last one (Continuous Red Line) */}
+        {isRoot && !isLastRoot ? (
+          <>
+            <div className="root-item-connector-v" />
+            <div className="root-item-connector-h" />
+          </>
+        ) : (
+          <>
+             <div className="root-item-connector-h-last" />
+          </>
+        )}
+        
         <div
           className={itemContentClasses}
           onClick={(e) => {
@@ -120,30 +129,13 @@ const TreeItem: React.FC<Props> = React.memo(
             setIsSelected(true);
           }}
         >
-          <div className="input-area">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                // placeholder for collapse/expand
-              }}
-              disabled={!hasChildren}
-              className={`toggle-children-btn ${
-                !hasChildren ? "invisible-toggle" : ""
-              }`}
-              title={hasChildren ? "Toggle" : "No children"}
-            >
-              <ChevronRight
-                size={16}
-                className={hasChildren ? "rotate-90" : ""}
-              />
-            </button>
-
+          <div className="input-area"> 
             {isEditing ? (
               <input
                 ref={inputRef}
                 value={editedName}
                 onChange={(e) => setEditedName(e.target.value)}
-                onBlur={() => saveName()}
+                onBlur={saveName}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") saveName();
                   if (e.key === "Escape") {
@@ -157,14 +149,12 @@ const TreeItem: React.FC<Props> = React.memo(
             ) : (
               <div className="port-input port-input-display">
                 <span
-                  className={`port-name-text ${
-                    port.isEditable ? "text-editable" : "text-read-only"
-                  }`}
+                  className={`port-name-text ${port.isEditable ? "text-editable" : "text-read-only"}`}
                   onDoubleClick={() => {
                     if (port.isEditable) setIsEditing(true);
                   }}
                 >
-                  {port.name || "Double-click to edit"}
+                  {editedName} {!editedName && <span className="placeholder-text">(Unnamed)</span>}
                 </span>
               </div>
             )}
@@ -180,10 +170,7 @@ const TreeItem: React.FC<Props> = React.memo(
                     <input
                       type="checkbox"
                       checked={!port.isEditable}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        toggleRO();
-                      }}
+                      onChange={toggleRO}
                       className="sr-only"
                     />
                     <div className="slider-sm-base" />
@@ -191,10 +178,7 @@ const TreeItem: React.FC<Props> = React.memo(
                 </div>
 
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    remove();
-                  }}
+                  onClick={remove}
                   title="Delete"
                   className="control-btn control-btn-delete"
                 >
@@ -202,10 +186,7 @@ const TreeItem: React.FC<Props> = React.memo(
                 </button>
 
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addChild();
-                  }}
+                  onClick={addChild}
                   title="Add child"
                   className="control-btn control-btn-add"
                 >
@@ -219,7 +200,7 @@ const TreeItem: React.FC<Props> = React.memo(
         {hasChildren && (
           <div className="children-container">
             {port.children.map((child: Port, idx: number) => (
-              <TreeItem // ⬅️ Correct recursive call using its own name
+              <TreeItem // Recursive call
                 key={child.id}
                 port={child}
                 depth={depth + 1}

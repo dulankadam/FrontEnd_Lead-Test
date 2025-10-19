@@ -19,9 +19,7 @@ function App() {
     <div className="flex flex-col ">
       {/* Top Navigation Bar */}
       <div className="bg-white border-b px-6 py-4">
-        <h1 className="text-2xl font-bold text-gray-800">
-          PORT TEMPLATE - APP
-        </h1>
+       
       </div>
 
       {/* Main Content Area */}
