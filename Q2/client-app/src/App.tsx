@@ -2,7 +2,13 @@ import React from "react";
 import "./index.css";
 
 // Import port-template library components
-import { HeaderTabs, TabType, HeaderFields, PortTemplate, FieldInput } from "port-template";
+import {
+  HeaderTabs,
+  TabType,
+  HeaderFields,
+  PortTemplate,
+  FieldInput,
+} from "port-template";
 
 function App() {
   const [treeData, setTreeData] = React.useState([
@@ -17,18 +23,10 @@ function App() {
 
   return (
     <div className="flex flex-col ">
-      {/* Top Navigation Bar */}
-      <div className="bg-white border-b px-6 py-4">
-       
-      </div>
+      <div className="bg-white border-b px-6 py-4"></div>
 
-      {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar */}
-
-        {/* Main Canvas Area */}
         <div className="flex-1 bg-gray-50 p-6">
-          {/* Header Controls */}
           <div className="mb-6">
             <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
           </div>
@@ -46,7 +44,6 @@ function App() {
         </div>
       </div>
 
-      {/* Status Bar */}
       <div className="bg-gray-200 border-t px-4 py-2">
         <span className="text-sm text-gray-600">Status: Ready</span>
       </div>

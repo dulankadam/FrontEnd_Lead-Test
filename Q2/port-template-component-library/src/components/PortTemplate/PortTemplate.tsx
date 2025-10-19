@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import TreeItemComponent from "./TreeItem"; // Renamed import to avoid type collision
+import TreeItemComponent from "./TreeItem"; 
 import { Port, MutationHandler, MutationAction } from "../../types";
 import { Plus } from "lucide-react";
 
@@ -60,8 +60,6 @@ const PortTemplate: React.FC<PortTemplateProps> = () => {
   const PortTree = useMemo(() => {
     return (
       <div className="port-tree-container">
-        {/* REMOVE: <div className="root-connector-v" /> */}
-
         {ports.map((p, idx) => (
           <TreeItemComponent
             key={p.id}

@@ -1,11 +1,7 @@
-// Tree helpers and initial data. small fallbacks and clear logic.
-
 import { Port, PortMutation } from "../types";
 
 export const generateId = (): string => {
   try {
-    // prefer crypto if available
-    // @ts-ignore
     return typeof crypto !== "undefined" && crypto.randomUUID
       ? crypto.randomUUID()
       : `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
@@ -43,15 +39,6 @@ export const initialPortData: Port[] = [
   { id: "root-5", name: "5", isEditable: true, children: [] },
 ];
 
-/**
- * Apply a mutation immutably.
- * - ADD_CHILD: append a child to target node
- * - UPDATE_NAME: rename target node
- * - TOGGLE_READONLY: flip isEditable flag
- * - DELETE: remove node (and its children)
- *
- * Note: children of deleted node are discarded in this implementation.
- */
 export const applyMutation = (
   ports: Port[],
   mutation: PortMutation

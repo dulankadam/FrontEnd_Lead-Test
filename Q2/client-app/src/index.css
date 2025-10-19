@@ -195,10 +195,6 @@
   padding: 12px;
 }
 
-/* PORT TEMPLATE STYLES */
-
-/* PortTemplate.css */
-
 .port-template-wrapper {
   padding: 20px;
   background-color: #f8f9fa; /* Light background for the whole page/area */
@@ -236,7 +232,6 @@
   border-color: gray;
 }
 
-/* Add Root Button (Top Left) - Styled to look like the blue outline '+' in the image */
 .add-root-btn {
   background-color: transparent;
   color: #007bff; /* Blue */
@@ -280,7 +275,6 @@
   padding-right: 20px;
 }
 
-/* Floating Controls (Read only, Delete, Add) - To mimic the positioned box */
 .floating-controls-mock {
   position: absolute; /* Absolute positioning to place it correctly */
   right: 50px; /* Adjust as needed */
@@ -384,15 +378,12 @@
   border-width: 0;
 }
 
-/* TreeItem.css */
-
 .tree-item-wrapper {
   position: relative;
   padding-top: 12px; /* pt-3 (approx 12px) */
   outline: none; /* Remove default focus outline */
 }
 
-/* For nested items (indentation) */
 .nested-item {
   margin-left: 24px; /* ml-6 (approx 24px) */
 }
@@ -405,7 +396,6 @@
   z-index: 10;
 }
 
-/* Horizontal line: connects vertical line to the item */
 .connector-h {
   top: 17px; /* Matches vertical position of the item's center */
   left: -16px;
@@ -413,7 +403,6 @@
   width: 16px;
 }
 
-/* Vertical line: connects parent/sibling to the horizontal line */
 .connector-v {
   top: 0;
   left: -16px;
@@ -421,13 +410,11 @@
   bottom: 0; /* Extends to the bottom */
 }
 
-/* For the last child, the vertical line should stop */
 .connector-v-last {
   height: 16px; /* Stops halfway up the padding (24px padding + 12px top = 36 total, 16px stops short) */
   bottom: auto;
 }
 
-/* Highlighted connectors when item is selected */
 .connector-selected {
   background-color: #4f46e5; /* indigo-500 */
 }
@@ -517,12 +504,11 @@
 .port-input-editing {
   border: 2px solid #007bff; /* blue-500 */
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* focus:ring-2 focus:ring-blue-500 shadow-sm */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); 
 }
 
 /* Contextual Controls Box */
 .controls-container {
-  /* Using absolute positioning for the 'floating' effect visible in the image */
   position: absolute;
   right: -220px; /* Aligned to the right of the container */
   top: 50%;
@@ -536,7 +522,6 @@
   transition: opacity 0.2s;
 }
 
-/* Make controls visible on selection or hover (match original group-hover:opacity-100 logic) */
 .tree-item-content:hover .controls-container,
 .controls-container.controls-visible {
   opacity: 1;
@@ -589,7 +574,6 @@
   background-color: #0056b3; /* blue-600 */
 }
 
-/* Small Toggle Switch (Read only inside contextual controls) */
 .toggle-switch-sm {
   position: relative;
   display: inline-block;
@@ -647,9 +631,6 @@
   border-width: 0;
 }
 
-/* src/styles/PortTemplate.css */
-
-/* --- ADD THIS NEW BLOCK FOR ROOT CONNECTOR --- */
 .port-tree-container {
   position: relative; /* Required for absolute positioning of the connector */
   padding-left: 20px; /* Space for the root connector line */
@@ -661,18 +642,15 @@
   left: 20px; /* Aligns with the children's vertical lines */
   bottom: 0;
   width: 2px;
-  background-color: #ced4da; /* Same color as child connectors */
-  z-index: 5; /* Below the tree items */
+  background-color: #ced4da; 
+  z-index: 5; 
 }
 
-/* src/styles/TreeItem.css */
 
 .tree-item-wrapper {
   position: relative;
   padding-top: 12px;
   outline: none;
-  /* Adjust wrapper padding to visually align with the root connector */
-  /* NO CHANGE HERE - THE PADDING IS IN THE PARENT CONTAINER */
 }
 .nested-item {
   margin-left: 24px;
@@ -686,7 +664,6 @@
   z-index: 10;
 }
 
-/* Adjusting the position of the horizontal line for nested items */
 .nested-item > .connector-h {
   top: 34px;
   left: -16px;
@@ -710,7 +687,6 @@
   padding-left: 0;
 }
 
-/* src/styles/TreeItem.css */
 
 .tree-item-wrapper {
   position: relative;
@@ -721,7 +697,6 @@
   margin-left: 24px;
 }
 
-/* New style for the vertical line connecting all non-last root items */
 .root-item-connector-v {
   position: absolute;
   top: 32px;
@@ -754,12 +729,11 @@
   width: 2px;
   bottom: 0;
 }
-/* Ensure the input area of a nested item is aligned properly */
+
 .nested-item .input-area {
   margin-left: 0; /* Reset alignment if necessary */
 }
 
-/* Connectors (Nested Items Only) */
 .connector-h,
 .connector-v {
   position: absolute;

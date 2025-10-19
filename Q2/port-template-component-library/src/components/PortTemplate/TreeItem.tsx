@@ -13,13 +13,11 @@ interface Props {
 
 const TreeItem: React.FC<Props> = React.memo(
   ({ port, depth, mutationHandler, isLastRoot }) => {
-    // --- STATE DEFINITIONS (FIXED MISSING CODE) ---
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(port.name);
     const [isSelected, setIsSelected] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    // --- EFFECT HOOKS (FIXED MISSING CODE) ---
     useEffect(() => {
       setEditedName(port.name);
     }, [port.name]);
@@ -31,7 +29,6 @@ const TreeItem: React.FC<Props> = React.memo(
       }
     }, [isEditing]);
 
-    // --- HANDLERS (FIXED MISSING CODE) ---
     const saveName = useCallback(() => {
       const trimmed = editedName.trim();
       if (trimmed && trimmed !== port.name) {
@@ -74,7 +71,6 @@ const TreeItem: React.FC<Props> = React.memo(
     const hasChildren = port.children && port.children.length > 0;
     const isRoot = depth === 0;
 
-    // --- CLASS DEFINITIONS (FIXED MISSING CODE) ---
     const itemWrapperClasses = [
       "tree-item-wrapper",
       depth > 0 ? "nested-item" : "",
@@ -100,9 +96,6 @@ const TreeItem: React.FC<Props> = React.memo(
             setIsSelected(false);
         }}
       >
-        {/* Connectors (Vertical and Horizontal lines) */}
-        
-        {/* Render H and V connectors for nested items (depth > 0) */}
         {depth > 0 && (
           <>
             <div className={`connector-h ${isSelected ? "connector-selected" : ""}`} />
@@ -110,7 +103,6 @@ const TreeItem: React.FC<Props> = React.memo(
           </>
         )}
         
-        {/* FIX: Vertical line for all Root items except the last one (Continuous Red Line) */}
         {isRoot && !isLastRoot ? (
           <>
             <div className="root-item-connector-v" />
@@ -160,7 +152,6 @@ const TreeItem: React.FC<Props> = React.memo(
             )}
           </div>
 
-          {/* Floating/Contextual Controls */}
           <div className={controlsContainerClasses}>
             {isSelected && (
               <div className="contextual-controls-box">

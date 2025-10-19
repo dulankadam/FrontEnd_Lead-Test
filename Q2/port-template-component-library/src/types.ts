@@ -1,5 +1,3 @@
-// shared project types - intentionally small and explicit
-
 export interface Port {
   id: string;
   name: string;
@@ -22,7 +20,6 @@ export interface PortMutation {
   };
 }
 
-// src/types.ts
 
 // Define the structure of a Port item
 export interface Port {
@@ -32,14 +29,12 @@ export interface Port {
   children: Port[]; // Ports can contain other Ports
 }
 
-// Define the type for a mutation action
 export type MutationAction = 
   | { type: 'UPDATE_NAME'; targetId: string; payload: { name: string } }
   | { type: 'ADD_CHILD'; targetId: string; payload: { newPort: Port } }
   | { type: 'DELETE'; targetId: string }
   | { type: 'TOGGLE_READONLY'; targetId: string };
 
-// Define the handler function type
 export type MutationHandler = (mutation: MutationAction) => void;
 
 

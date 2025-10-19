@@ -25,7 +25,6 @@ const FieldInput: React.FC<Props> = ({
     <div className="mb-6">
       <div className="w-full">
         <div className="field-container">
-          {/* Header */}
           <button
             type="button"
             className="field-header"
@@ -50,7 +49,6 @@ const FieldInput: React.FC<Props> = ({
             </svg>
           </button>
 
-          {/* Collapsible content */}
 
           <div
             className="field-content-wrapper"
