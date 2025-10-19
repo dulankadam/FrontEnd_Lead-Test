@@ -1,7 +1,8 @@
-import React from "react";
-interface Props {
-    label: string;
-    value: string;
+import React, { ReactNode } from "react";
+export interface Props {
+    title: string;
+    children?: ReactNode;
+    defaultOpen?: boolean;
 }
 declare const FieldInput: React.FC<Props>;
 export default FieldInput;

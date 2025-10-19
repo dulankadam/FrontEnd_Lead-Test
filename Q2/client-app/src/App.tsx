@@ -1,42 +1,51 @@
 import React from "react";
-import "./index.css"; // Tailwind base styles
+import "./index.css";
 
-// Import your built library components
-import { HeaderTabs,TabType,HeaderFields, PortTemplate } from "port-template";
+// Import port-template library components
+import { HeaderTabs, TabType, HeaderFields, PortTemplate } from "port-template";
 
 function App() {
-  // Sample data for PortTemplate (tree view)
   const [treeData, setTreeData] = React.useState([
     { id: 1, name: "Main Node", children: [{ id: 2, name: "Child Node A" }] },
   ]);
-  
 
-  // Sample tabs and state
   const tabs = [
     { id: "general", label: "General Info" },
     { id: "structure", label: "Structure" },
   ];
-  const [activeTab, setActiveTab] = React.useState<TabType>('Details');
-
+  const [activeTab, setActiveTab] = React.useState<TabType>("Details");
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">
-        Client Application
-      </h1>
-      <p className="text-gray-600 mb-8">
-        Demonstration of custom React component library usage.
-      </p>
-      
-      {/* Header Tabs */}
-      <HeaderTabs
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
+    <div className="flex flex-col h-screen">
+      {/* Top Navigation Bar */}
+      <div className="bg-white border-b px-6 py-4">
+        <h1 className="text-2xl font-bold text-gray-800">PORT TEMPLATE - APP</h1>
+      </div>
 
-      
-     
+      {/* Main Content Area */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Sidebar */}
+        
+
+        {/* Main Canvas Area */}
+        <div className="flex-1 bg-gray-50 p-6">
+          {/* Header Controls */}
+          <div className="mb-6">
+            <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          </div>
+          <div className="mb-6">
+          <HeaderFields templateName={"Model"} templateId={"1"}/> 
+        </div>
+        <div className="mb-6">
+       
+      </div>
+        </div>
+      </div>
+
+      {/* Status Bar */}
+      <div className="bg-gray-200 border-t px-4 py-2">
+        <span className="text-sm text-gray-600">Status: Ready</span>
+      </div>
     </div>
   );
 }
