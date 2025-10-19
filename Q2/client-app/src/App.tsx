@@ -2,20 +2,21 @@ import React from "react";
 import "./index.css"; // Tailwind base styles
 
 // Import your built library components
-import { HeaderTabs } from "port-template"
+import { HeaderTabs,TabType,HeaderFields, PortTemplate } from "port-template";
 
 function App() {
   // Sample data for PortTemplate (tree view)
   const [treeData, setTreeData] = React.useState([
     { id: 1, name: "Main Node", children: [{ id: 2, name: "Child Node A" }] },
   ]);
+  
 
   // Sample tabs and state
   const tabs = [
     { id: "general", label: "General Info" },
     { id: "structure", label: "Structure" },
   ];
-  const [activeTab, setActiveTab] = React.useState("general");
+  const [activeTab, setActiveTab] = React.useState<TabType>('Details');
 
 
   return (
@@ -27,12 +28,14 @@ function App() {
       <p className="text-gray-600 mb-8">
         Demonstration of custom React component library usage.
       </p>
+      
       {/* Header Tabs */}
       <HeaderTabs
-        tabs={tabs}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        setActiveTab={setActiveTab}
       />
+
+      
      
     </div>
   );
