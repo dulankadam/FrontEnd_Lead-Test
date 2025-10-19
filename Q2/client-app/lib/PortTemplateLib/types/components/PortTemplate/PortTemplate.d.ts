@@ -1,3 +1,5 @@
 import React from 'react';
-declare const PortTemplate: React.FC;
+interface PortTemplateProps {
+}
+declare const PortTemplate: React.FC<PortTemplateProps>;
 export default PortTemplate;

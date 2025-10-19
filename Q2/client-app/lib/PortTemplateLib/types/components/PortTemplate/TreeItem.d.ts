@@ -1,5 +1,5 @@
-import React from 'react';
-import { Port, MutationHandler } from '../../types';
+import React from "react";
+import { Port, MutationHandler } from "../../types";
 interface Props {
     port: Port;
     depth: number;

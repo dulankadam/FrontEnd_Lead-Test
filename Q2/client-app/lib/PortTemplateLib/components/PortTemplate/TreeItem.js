@@ -1,7 +1,6 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-// Recursive tree item with edit/add/delete/toggle
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronRight, Plus, X } from 'lucide-react';
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronRight, Plus, X } from "lucide-react";
 const TreeItem = React.memo(({ port, depth, mutationHandler, isLastRoot }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(port.name);
@@ -19,44 +18,83 @@ const TreeItem = React.memo(({ port, depth, mutationHandler, isLastRoot }) => {
     const saveName = useCallback(() => {
         const trimmed = editedName.trim();
         if (trimmed && trimmed !== port.name) {
-            mutationHandler({ type: 'UPDATE_NAME', targetId: port.id, payload: { name: trimmed } });
+            mutationHandler({
+                type: "UPDATE_NAME",
+                targetId: port.id,
+                payload: { name: trimmed },
+            });
         }
         setIsEditing(false);
     }, [editedName, mutationHandler, port.id, port.name]);
     const addChild = useCallback(() => {
-        const newPort = { id: `id-${Date.now()}`, name: 'New Port', isEditable: true, children: [] };
-        mutationHandler({ type: 'ADD_CHILD', targetId: port.id, payload: { newPort } });
+        const newPort = {
+            id: `id-${Date.now()}`,
+            name: "",
+            isEditable: true,
+            children: [],
+        };
+        mutationHandler({
+            type: "ADD_CHILD",
+            targetId: port.id,
+            payload: { newPort },
+        });
     }, [mutationHandler, port.id]);
     const remove = useCallback(() => {
-        mutationHandler({ type: 'DELETE', targetId: port.id });
+        mutationHandler({ type: "DELETE", targetId: port.id });
         setIsSelected(false);
     }, [mutationHandler, port.id]);
     const toggleRO = useCallback(() => {
-        mutationHandler({ type: 'TOGGLE_READONLY', targetId: port.id });
+        mutationHandler({ type: "TOGGLE_READONLY", targetId: port.id });
     }, [mutationHandler, port.id]);
     const hasChildren = port.children && port.children.length > 0;
-    return (_jsxs("div", { className: `relative pt-3 ${depth > 0 ? 'ml-6' : ''}`, tabIndex: 0, onBlur: (e) => {
+    // CSS classes are conditionally applied based on component state/props
+    const itemWrapperClasses = [
+        "tree-item-wrapper",
+        depth > 0 ? "nested-item" : "",
+    ]
+        .filter(Boolean)
+        .join(" ");
+    const itemContentClasses = [
+        "tree-item-content",
+        isSelected ? "is-selected" : "",
+    ]
+        .filter(Boolean)
+        .join(" ");
+    const controlsContainerClasses = [
+        "controls-container",
+        isSelected ? "controls-visible" : "",
+    ]
+        .filter(Boolean)
+        .join(" ");
+    return (_jsxs("div", { className: itemWrapperClasses, tabIndex: 0, onBlur: (e) => {
             if (!e.currentTarget.contains(e.relatedTarget))
                 setIsSelected(false);
-        }, children: [depth > 0 && _jsx("div", { className: `absolute top-4 left-[-16px] h-[2px] w-[16px] ${isSelected ? 'bg-indigo-500' : 'bg-gray-300'}` }), depth > 0 && _jsx("div", { className: `absolute top-0 left-[-16px] w-[2px] ${isSelected ? 'bg-indigo-500' : 'bg-gray-300'} ${isLastRoot ? 'h-4' : 'bottom-0'}` }), _jsxs("div", { className: `flex items-center group relative p-1 rounded-lg transition-all cursor-pointer ${isSelected ? 'bg-indigo-50' : ''}`, onClick: (e) => {
+        }, children: [depth > 0 && (_jsxs(_Fragment, { children: [_jsx("div", { className: `connector-h ${isSelected ? "connector-selected" : ""}` }), _jsx("div", { className: `connector-v ${isSelected ? "connector-selected" : ""} ${isLastRoot ? "connector-v-last" : ""}` })] })), _jsxs("div", { className: itemContentClasses, onClick: (e) => {
                     e.stopPropagation();
                     setIsSelected(true);
-                }, children: [_jsxs("div", { className: "flex items-center flex-grow min-w-0", children: [_jsx("button", { onClick: (e) => {
+                }, children: [_jsxs("div", { className: "input-area", children: [_jsx("button", { onClick: (e) => {
                                     e.stopPropagation();
                                     // placeholder for collapse/expand
-                                }, disabled: !hasChildren, className: "mr-2 text-gray-500 hover:text-gray-800", title: hasChildren ? 'Toggle' : 'No children', children: _jsx(ChevronRight, { size: 16, className: `${hasChildren ? 'rotate-90' : 'opacity-0'}` }) }), isEditing ? (_jsx("input", { ref: inputRef, value: editedName, onChange: (e) => setEditedName(e.target.value), onBlur: () => saveName(), onKeyDown: (e) => {
-                                    if (e.key === 'Enter')
+                                }, disabled: !hasChildren, className: `toggle-children-btn ${!hasChildren ? "invisible-toggle" : ""}`, title: hasChildren ? "Toggle" : "No children", children: _jsx(ChevronRight, { size: 16, className: hasChildren ? "rotate-90" : "" }) }), isEditing ? (_jsx("input", { ref: inputRef, value: editedName, onChange: (e) => setEditedName(e.target.value), onBlur: () => saveName(), onKeyDown: (e) => {
+                                    if (e.key === "Enter")
                                         saveName();
-                                    if (e.key === 'Escape') {
+                                    if (e.key === "Escape") {
                                         setIsEditing(false);
                                         setEditedName(port.name);
                                     }
-                                }, className: "flex-grow min-w-0 px-3 py-2 border border-blue-500 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" })) : (_jsx("div", { className: "flex-grow min-w-0 px-3 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white", children: _jsx("span", { className: `truncate ${port.isEditable ? 'text-gray-800' : 'text-gray-500 italic'}`, onDoubleClick: () => {
+                                }, className: "port-input port-input-editing", placeholder: "Enter Port Name" })) : (_jsx("div", { className: "port-input port-input-display", children: _jsx("span", { className: `port-name-text ${port.isEditable ? "text-editable" : "text-read-only"}`, onDoubleClick: () => {
                                         if (port.isEditable)
                                             setIsEditing(true);
-                                    }, children: port.name }) }))] }), _jsx("div", { className: `absolute right-[-220px] top-1/2 -translate-y-1/2 flex items-center space-x-2 transition-opacity duration-200 ml-4 ${isSelected ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 sm:relative sm:right-0 sm:top-0 sm:translate-y-0 sm:opacity-100`, children: isSelected && (_jsxs("div", { className: "flex items-center space-x-3 bg-white p-2 rounded-xl shadow border border-gray-200", children: [_jsxs("div", { className: "flex items-center space-x-2 text-sm", children: [_jsx("span", { className: "text-gray-600", children: "Read only" }), _jsxs("label", { className: "relative inline-flex items-center cursor-pointer", children: [_jsx("input", { type: "checkbox", checked: !port.isEditable, onChange: (e) => {
+                                    }, children: port.name || "Double-click to edit" }) }))] }), _jsx("div", { className: controlsContainerClasses, children: isSelected && (_jsxs("div", { className: "contextual-controls-box", children: [_jsxs("div", { className: "control-group-ro", children: [_jsx("span", { className: "control-label", children: "Read only" }), _jsxs("label", { className: "toggle-switch-sm", children: [_jsx("input", { type: "checkbox", checked: !port.isEditable, onChange: (e) => {
                                                         e.stopPropagation();
                                                         toggleRO();
-                                                    }, className: "sr-only peer" }), _jsx("div", { className: "w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all" })] })] }), _jsx("button", { onClick: (e) => { e.stopPropagation(); remove(); }, title: "Delete", className: "p-2 rounded-full text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors", children: _jsx(X, { size: 18 }) }), _jsx("button", { onClick: (e) => { e.stopPropagation(); addChild(); }, title: "Add child", className: "p-2 rounded-full text-white bg-blue-500 hover:bg-blue-600 transition-colors shadow-md", children: _jsx(Plus, { size: 18 }) })] })) })] }), hasChildren && (_jsx("div", { className: "relative", children: port.children.map((child, idx) => (_jsx(TreeItem, { port: child, depth: depth + 1, mutationHandler: mutationHandler, isLastRoot: idx === port.children.length - 1 }, child.id))) }))] }));
+                                                    }, className: "sr-only" }), _jsx("div", { className: "slider-sm-base" })] })] }), _jsx("button", { onClick: (e) => {
+                                        e.stopPropagation();
+                                        remove();
+                                    }, title: "Delete", className: "control-btn control-btn-delete", children: _jsx(X, { size: 18 }) }), _jsx("button", { onClick: (e) => {
+                                        e.stopPropagation();
+                                        addChild();
+                                    }, title: "Add child", className: "control-btn control-btn-add", children: _jsx(Plus, { size: 18 }) })] })) })] }), hasChildren && (_jsx("div", { className: "children-container", children: port.children.map((child, idx) => (_jsx(TreeItem // ⬅️ Correct recursive call using its own name
+                , { port: child, depth: depth + 1, mutationHandler: mutationHandler, isLastRoot: idx === port.children.length - 1 }, child.id))) }))] }));
 });
 export default TreeItem;

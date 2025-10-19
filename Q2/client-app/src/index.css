@@ -2,49 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.fd-tabs-container {
-  display: flex;
-  border-bottom: 1.5px solid #e0e0e0;
-  width: 500px;
-  background: #fafbfc;
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
-}
 
-.fd-tab {
-  flex: 1;
-  padding: 14px 0;
-  text-align: center;
-  background: #fafbfc;
-  cursor: pointer;
-  border-bottom: none;
-  font-weight: 500;
-  color: #6c757d;
-  font-size: 1rem;
-  letter-spacing: 0.01em;
-  transition: background 0.2s, border-bottom 0.2s, color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.fd-tab-active {
-  background: #fff;
-  border-bottom: 2.5px solid #007bff;
-  color: #007bff;
-  font-weight: 600;
-}
-
-.fd-icon {
-  vertical-align: middle;
-  margin-right: 4px;
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-}
-
-.catalog-template-container {
+/* .catalog-template-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,17 +12,17 @@
   border-radius: 12px;
   padding: 24px 32px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
+} */
 
-.catalog-template-info {
+/* .catalog-template-info {
   flex: 1;
-}
+} */
 
-.catalog-template-row {
+/* .catalog-template-row {
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-}
+} */
 
 .catalog-template-label {
   font-size: 14px;
@@ -191,8 +150,6 @@
 
 /* Header */
 .field-header {
-  margin-top: 15px;
-  width: 140%;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -237,4 +194,455 @@
   border-top: none;
   border-radius: 0 0 4px 4px;
   padding: 12px;
+}
+
+
+/* PORT TEMPLATE STYLES */
+
+/* PortTemplate.css */
+
+.port-template-wrapper {
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background for the whole page/area */
+  min-height: 100vh;
+}
+
+/* Header Area */
+.port-template-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.port-template-title {
+  font-size: 1.5rem; /* Equivalent to text-2xl */
+  font-weight: 600; /* Semi-bold */
+  color: #343a40;
+}
+
+.port-template-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.port-template-actions button {
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 0.875rem; /* text-sm */
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+/* Add Root Button (Top Left) - Styled to look like the blue outline '+' in the image */
+.add-root-btn {
+  background-color: transparent;
+  color: #007bff; /* Blue */
+  border: 1px dashed #007bff;
+  padding: 5px 8px; /* Adjusted padding to look square and match the image */
+  border-radius: 4px;
+}
+.add-root-btn:hover {
+  background-color: #e7f5ff;
+}
+.add-root-btn svg {
+    display: block; /* Center icon */
+}
+
+.btn-back {
+  background-color: #ffffff;
+  color: #6c757d; /* Gray text */
+  border-color: #ced4da; /* Gray border */
+}
+.btn-back:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.btn-save {
+  background-color: #007bff; /* Primary Blue */
+  color: #ffffff;
+}
+.btn-save:hover {
+  background-color: #0056b3;
+}
+
+/* Main Content Area */
+.port-template-content {
+  display: flex;
+  padding-top: 20px;
+}
+
+.tree-structure-area {
+  flex-grow: 1;
+  padding-right: 20px;
+}
+
+/* Floating Controls (Read only, Delete, Add) - To mimic the positioned box */
+.floating-controls-mock {
+  position: absolute; /* Absolute positioning to place it correctly */
+  right: 50px; /* Adjust as needed */
+  top: 300px; /* Adjust as needed, based on the image's position */
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.floating-control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.floating-label {
+    font-size: 0.875rem; /* text-sm */
+    color: #495057;
+}
+
+.floating-action-btn {
+    border: none;
+    background: none;
+    color: #495057; /* Gray */
+    padding: 5px;
+    cursor: pointer;
+}
+.floating-action-btn:hover {
+    color: #dc3545; /* Red on hover for delete */
+}
+
+.floating-add-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+/* Mock Toggle Switch (Read only) */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px; /* w-11 */
+  height: 24px; /* h-6 */
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-base {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* bg-gray-200 */
+  transition: 0.4s;
+  border-radius: 24px; /* rounded-full */
+}
+
+.slider-thumb {
+  position: absolute;
+  content: "";
+  height: 20px; /* h-5 */
+  width: 20px; /* w-5 */
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.toggle-switch input:checked + .slider-base {
+  background-color: #4f46e5; /* indigo-600 */
+}
+
+.toggle-switch input:checked + .slider-base .slider-thumb {
+  transform: translateX(20px);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* TreeItem.css */
+
+.tree-item-wrapper {
+  position: relative;
+  padding-top: 12px; /* pt-3 (approx 12px) */
+  outline: none; /* Remove default focus outline */
+}
+
+/* For nested items (indentation) */
+.nested-item {
+  margin-left: 24px; /* ml-6 (approx 24px) */
+}
+
+/* Connectors */
+.connector-h, .connector-v {
+  position: absolute;
+  background-color: #ced4da; /* gray-300 */
+  z-index: 10;
+}
+
+/* Horizontal line: connects vertical line to the item */
+.connector-h {
+  top: 17px; /* Matches vertical position of the item's center */
+  left: -16px;
+  height: 2px;
+  width: 16px;
+}
+
+/* Vertical line: connects parent/sibling to the horizontal line */
+.connector-v {
+  top: 0;
+  left: -16px;
+  width: 2px;
+  bottom: 0; /* Extends to the bottom */
+}
+
+/* For the last child, the vertical line should stop */
+.connector-v-last {
+  height: 16px; /* Stops halfway up the padding (24px padding + 12px top = 36 total, 16px stops short) */
+  bottom: auto;
+}
+
+/* Highlighted connectors when item is selected */
+.connector-selected {
+  background-color: #4f46e5; /* indigo-500 */
+}
+
+
+/* Main Item Content Area */
+.tree-item-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 4px; /* p-1 */
+  border-radius: 8px; /* rounded-lg */
+  transition: all 0.2s;
+  cursor: pointer;
+  z-index: 20; /* Keep content above connectors */
+}
+
+.tree-item-content:hover {
+  background-color: #f3f4f6; /* Subtle hover effect */
+}
+
+.tree-item-content.is-selected {
+  background-color: #eef2ff; /* indigo-50 */
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+/* Toggle Button */
+.toggle-children-btn {
+  margin-right: 8px; /* mr-2 */
+  color: #6c757d; /* gray-500 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.toggle-children-btn:hover:not(:disabled) {
+  color: #343a40; /* gray-800 */
+}
+.toggle-children-btn svg {
+  transition: transform 0.2s;
+}
+.toggle-children-btn .rotate-90 {
+  transform: rotate(90deg);
+}
+.invisible-toggle {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Port Input/Display Box */
+.port-input {
+  flex-grow: 1;
+  min-width: 0;
+  padding: 8px 12px; /* px-3 py-2 */
+  border-radius: 6px; /* rounded-md */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  transition: all 0.2s;
+}
+
+.port-input-display {
+  background-color: #ffffff;
+  border: 1px solid #ced4da; /* gray-300 */
+  display: flex;
+  align-items: center;
+}
+
+.port-name-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.text-editable {
+  color: #343a40; /* gray-800 */
+}
+.text-read-only {
+  color: #6c7577; /* gray-500 */
+  font-style: italic;
+}
+
+.port-input-editing {
+  border: 2px solid #007bff; /* blue-500 */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* focus:ring-2 focus:ring-blue-500 shadow-sm */
+}
+
+/* Contextual Controls Box */
+.controls-container {
+  /* Using absolute positioning for the 'floating' effect visible in the image */
+  position: absolute;
+  right: -220px; /* Aligned to the right of the container */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  margin-left: 16px; /* ml-4 */
+  
+  /* Initial state: hidden */
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Make controls visible on selection or hover (match original group-hover:opacity-100 logic) */
+.tree-item-content:hover .controls-container,
+.controls-container.controls-visible {
+    opacity: 1;
+}
+
+.contextual-controls-box {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space-x-3 */
+  background-color: #ffffff;
+  padding: 8px 12px; /* p-2 */
+  border-radius: 12px; /* rounded-xl */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* shadow */
+  border: 1px solid #e5e7eb; /* border-gray-200 */
+}
+
+.control-group-ro {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space-x-2 */
+  font-size: 0.875rem; /* text-sm */
+}
+.control-label {
+  color: #495057; /* gray-600 */
+}
+
+.control-btn {
+  padding: 6px; /* p-2 */
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.control-btn-delete {
+  color: #6c757d; /* gray-500 */
+  background-color: transparent;
+}
+.control-btn-delete:hover {
+  color: #dc3545; /* red-600 */
+  background-color: #fee2e2; /* red-50 */
+}
+
+.control-btn-add {
+  color: #ffffff;
+  background-color: #007bff; /* blue-500 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.control-btn-add:hover {
+  background-color: #0056b3; /* blue-600 */
+}
+
+/* Small Toggle Switch (Read only inside contextual controls) */
+.toggle-switch-sm {
+  position: relative;
+  display: inline-block;
+  width: 36px; /* Smaller than the main one */
+  height: 20px;
+}
+
+.toggle-switch-sm input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-sm-base {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider-sm-base::after {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.toggle-switch-sm input:checked + .slider-sm-base {
+  background-color: #4f46e5;
+}
+
+.toggle-switch-sm input:checked + .slider-sm-base::after {
+  transform: translateX(16px);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

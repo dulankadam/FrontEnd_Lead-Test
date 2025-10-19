@@ -1,99 +1,104 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import TreeItem from './TreeItem';
-import HeaderTabs from '../shared/HeaderTabs';
-import HeaderFields from '../shared/HeaderFields';
-import DocumentsSection from '../shared/DocumentsSection';
-import { initialPortData, applyMutation, generateId } from '../../utils/treeUtils';
-import { Port, MutationHandler, TabType } from '../../types';
-import { Plus, ChevronRight } from 'lucide-react';
+import React, { useCallback, useMemo, useState } from 'react';
+// FIX: Use an alias to avoid confusing the component with its own props (if PortTemplateProps was used)
+import TreeItemComponent from './TreeItem'; 
+import { Port, MutationHandler, MutationAction } from '../../types'; 
+import { Plus } from 'lucide-react';
 
-// Main container - composes shared components and tree
-const PortTemplate: React.FC = () => {
-  const [ports, setPorts] = useState<Port[]>(() => initialPortData);
-  const [activeTab, setActiveTab] = useState<TabType>('Filter');
-  const [totalPorts, setTotalPorts] = useState<number>(0);
+// Dummy imports for types and utils 
+const applyMutation = (p: Port[], m: MutationAction) => p; 
+const generateId = () => `id-${Date.now()}`;
 
-  useEffect(() => {
-    let count = 0;
-    const walk = (p: Port) => {
-      count++;
-      p.children.forEach(walk);
-    };
-    ports.forEach(walk);
-    setTotalPorts(count);
-  }, [ports]);
+// Define the component's props interface (empty)
+interface PortTemplateProps {}
 
-  const mutationHandler: MutationHandler = useCallback((m) => {
+const PortTemplate: React.FC<PortTemplateProps> = () => {
+  const [ports, setPorts] = useState<Port[]>(() => [
+    { id: 'A', name: 'A', isEditable: false, children: [] },
+    { id: 'B', name: 'B', isEditable: false, children: [] },
+    {
+      id: 'C',
+      name: 'C',
+      isEditable: false,
+      children: [
+        { id: 'C1', name: '', isEditable: true, children: [] },
+        { id: 'C2', name: '', isEditable: true, children: [] },
+      ],
+    },
+    { id: 'D', name: 'D', isEditable: false, children: [] },
+    { id: 'E', name: 'E', isEditable: false, children: [] },
+    { id: 'F', name: 'F', isEditable: false, children: [] },
+  ]);
+
+  const mutationHandler: MutationHandler = useCallback((m: MutationAction) => {
     setPorts((prev) => applyMutation(prev, m));
   }, []);
 
   const addRoot = () => {
-    const newRoot: Port = { id: generateId(), name: 'New Port', isEditable: true, children: [] };
-    setPorts((p) => [...p, newRoot]);
-    // TODO: auto-select / open editing
+    const newRoot: Port = { id: generateId(), name: '', isEditable: true, children: [] };
+    // FIX: Renamed 'p' to 'prevPorts' to resolve the shorthand property error
+    setPorts((prevPorts) => [...prevPorts, newRoot]); 
   };
 
   const PortTree = useMemo(() => {
     return (
-      <div className="space-y-4">
+      <div className="port-tree-container">
         {ports.map((p, idx) => (
-          <TreeItem key={p.id} port={p} depth={0} mutationHandler={mutationHandler} isLastRoot={idx === ports.length - 1} />
+          // FIX: Use the imported alias
+          <TreeItemComponent 
+            key={p.id}
+            port={p}
+            depth={0}
+            mutationHandler={mutationHandler}
+            isLastRoot={idx === ports.length - 1}
+          />
         ))}
       </div>
     );
   }, [ports, mutationHandler]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 sm:p-8 lg:p-10 font-sans">
-      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 space-y-6">
-        <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="port-template-wrapper">
+      {/* Header Area */}
+      <div className="port-template-header">
+        <h2 className="port-template-title">Port Template</h2>
+        <div className="port-template-actions">
+          {/* Root-level '+' button (Top-left in the image's layout) */}
+          <button onClick={addRoot} title="Add root port" className="add-root-btn">
+             <Plus size={16} />
+          </button>
+          <button className="btn-back">Back</button>
+          <button className="btn-save">Save</button>
+        </div>
+      </div>
 
-        <div>
-          {activeTab === 'Filter' && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center pb-2 border-b border-gray-100 mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Fields</h2>
-                <ChevronRight size={24} className="text-gray-500 transform rotate-90" />
-              </div>
-
-              <HeaderFields templateName="Default Port Configuration" templateId="A12-CFG-001" />
-
-              <div className="flex justify-between items-end pt-4 pb-2 border-b border-gray-100 mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Port Template</h2>
-                <div className="flex space-x-3">
-                  <button onClick={addRoot} className="flex items-center justify-center p-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors shadow-md" title="Add root port">
-                    <Plus size={16} />
-                  </button>
-                  <button className="px-3 py-1 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors shadow-md">Back</button>
-                  <button className="px-3 py-1 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors shadow-md">Save</button>
-                </div>
-              </div>
-
-              <div className="relative pl-4">
-                {ports.length > 0 && <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-gray-300 pointer-events-none" />}
-                {ports.length === 0 ? <div className="text-center py-10 text-gray-500 border border-dashed border-gray-300 rounded-lg">No ports defined. Click the "+" button to add a root port.</div> : PortTree}
-              </div>
-
-              <div className="flex justify-between items-center pt-4 pb-2 border-b border-gray-100 mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Documents</h2>
-                <Plus size={24} className="text-blue-500 hover:text-blue-700 cursor-pointer" />
-              </div>
-              <DocumentsSection />
+      {/* Main Content Area */}
+      <div className="port-template-content">
+        {/* Tree Structure */}
+        <div className="tree-structure-area">
+          {PortTree}
+        </div>
+        
+        {/* Floating Controls (Mocked) */}
+        <div className="floating-controls-mock">
+            <div className="floating-control-group">
+                <span className="floating-label">Read only</span>
+                {/* Mock toggle/switch */}
+                <label className="toggle-switch">
+                  <input type="checkbox" className="sr-only" />
+                  <div className="slider-base">
+                      <div className="slider-thumb" />
+                  </div>
+                </label>
+                {/* Mock Trash icon */}
+                <button className="floating-action-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
             </div>
-          )}
-
-          {activeTab === 'Details' && (
-            <div className="text-gray-600">
-              <h2 className="text-xl font-semibold mb-3">Template Metadata</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <p>Status: Active</p>
-                <p>Creator: System Admin</p>
-                <p>Last Modified: 2025-10-19</p>
-                <p>Version: 1.5.0</p>
-                <p>Total ports: {totalPorts}</p>
-              </div>
-            </div>
-          )}
+            <button className="floating-add-btn">
+                <Plus size={16} />
+            </button>
         </div>
       </div>
     </div>

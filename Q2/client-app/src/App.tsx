@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 
 // Import port-template library components
-import { HeaderTabs, TabType, HeaderFields, PortTemplate } from "port-template";
+import { HeaderTabs, TabType, HeaderFields, PortTemplate, FieldInput } from "port-template";
 
 function App() {
   const [treeData, setTreeData] = React.useState([
@@ -16,16 +16,17 @@ function App() {
   const [activeTab, setActiveTab] = React.useState<TabType>("Details");
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col ">
       {/* Top Navigation Bar */}
       <div className="bg-white border-b px-6 py-4">
-        <h1 className="text-2xl font-bold text-gray-800">PORT TEMPLATE - APP</h1>
+        <h1 className="text-2xl font-bold text-gray-800">
+          PORT TEMPLATE - APP
+        </h1>
       </div>
 
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
-        
 
         {/* Main Canvas Area */}
         <div className="flex-1 bg-gray-50 p-6">
@@ -34,11 +35,16 @@ function App() {
             <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
           </div>
           <div className="mb-6">
-          <HeaderFields templateName={"Model"} templateId={"1"}/> 
-        </div>
-        <div className="mb-6">
-       
-      </div>
+            <HeaderFields templateName={"Model"} templateId={"1"} />
+          </div>
+          <div className="mb-6">
+            <FieldInput title="Fields">
+              <p>This is the expanded panel content area.</p>
+            </FieldInput>
+          </div>
+          <div className="mb-6">
+            <PortTemplate />
+          </div>
         </div>
       </div>
 

@@ -13,5 +13,30 @@ export interface PortMutation {
         newPort?: Port;
     };
 }
-export type MutationHandler = (m: PortMutation) => void;
+export interface Port {
+    id: string;
+    name: string;
+    isEditable: boolean;
+    children: Port[];
+}
+export type MutationAction = {
+    type: 'UPDATE_NAME';
+    targetId: string;
+    payload: {
+        name: string;
+    };
+} | {
+    type: 'ADD_CHILD';
+    targetId: string;
+    payload: {
+        newPort: Port;
+    };
+} | {
+    type: 'DELETE';
+    targetId: string;
+} | {
+    type: 'TOGGLE_READONLY';
+    targetId: string;
+};
+export type MutationHandler = (mutation: MutationAction) => void;
 export type TabType = "Filter" | "Details";
