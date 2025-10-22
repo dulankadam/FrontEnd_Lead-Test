@@ -669,6 +669,8 @@
   left: -16px;
   height: 2px;
   width: 20px;
+  border-bottom: 2px dotted #888;
+  z-index: 10;
 }
 
 .nested-item > .connector-v {
@@ -676,12 +678,48 @@
   left: -16px;
   width: 2px;
   bottom: -34px;
-}
-.connector-v-last {
-  height: 16px;
-  bottom: auto;
+  border-left: 2px dotted #888;
+  z-index: 10;
 }
 
+.connector-h {
+  top: 34px;
+  left: -16px;
+  height: 2px;
+  width: 16px;
+  position: absolute;
+  border-left: 2px dotted #888;
+  z-index: 10;
+}
+.connector-v {
+  top: 7px;
+  left: -10px;
+  width: 2px;
+  bottom: 0;
+  position: absolute;
+  border-bottom: 2px dotted #888;
+  z-index: 10;
+}
+
+.connector-v-last {
+  top: -1px;
+  left: -16px;
+  width: 2px;
+  position: absolute;
+  border-left: 2px dotted #888;
+  z-index: 10;
+  height: 39px;
+}
+
+.connector-h-last {
+  top: 36px;
+  left: -12px;
+  height: 2px;
+  width: 16px;
+  position: absolute;
+  border-bottom: 2px dotted #888;
+  z-index: 10;
+}
 .port-tree-container {
   position: relative;
   padding-left: 0;
@@ -703,12 +741,12 @@
   left: -14px;
   bottom: -36px;
   width: 2px;
-  background-color: #ced4da;
+  border-left: 2px dotted #888;
   z-index: 5;
 }
 .root-item-connector-h {
   position: relative;
-  background-color: #ced4da;
+  border-bottom: 2px dotted #888;
   top: 20px;
   left: -12px;
   height: 2px;
@@ -716,45 +754,26 @@
 }
 .root-item-connector-v-last {
   position: relative;
-  background-color: #ced4da;
-  height: 16px;
   bottom: auto;
+  border-left: 2px dotted #888;
+  left: -14px;
+  top: 26px;
 }
 
 .root-item-connector-h-last {
   position: relative;
-  background-color: #ced4da;
-  top: 7px;
-  left: -10px;
-  width: 2px;
+  /* background-color: #107ae4; */
+  top: 24px;
+  left: -13px;
+  width: 17px;
   bottom: 0;
+  z-index: 10;
+  /* height: 10px; */
+  border-bottom: 2px dotted #888;
 }
 
 .nested-item .input-area {
   margin-left: 0; /* Reset alignment if necessary */
-}
-
-.connector-h,
-.connector-v {
-  position: absolute;
-  background-color: #ced4da;
-  z-index: 10;
-}
-.connector-h {
-  top: 34px;
-  left: -16px;
-  height: 2px;
-  width: 16px;
-}
-.connector-v {
-  top: 7px;
-  left: -10px;
-  width: 2px;
-  bottom: 0;
-}
-.connector-v-last {
-  height: 16px;
-  bottom: auto;
 }
 
 .connector-selected {

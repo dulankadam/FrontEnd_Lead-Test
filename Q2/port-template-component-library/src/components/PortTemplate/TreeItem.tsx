@@ -9,6 +9,7 @@ interface Props {
   depth: number;
   mutationHandler: MutationHandler;
   isLastRoot: boolean;
+  isFirstElement?: boolean;
 }
 
 const TreeItem: React.FC<Props> = React.memo(
@@ -41,50 +42,67 @@ const TreeItem: React.FC<Props> = React.memo(
       setIsEditing(false);
     }, [editedName, mutationHandler, port.id, port.name]);
 
-    const addChild = useCallback((e: React.MouseEvent) => {
-      e.stopPropagation();
-      const newPort: Port = {
-        id: `id-${Date.now()}`,
-        name: "",
-        isEditable: true,
-        children: [],
-      };
-      mutationHandler({
-        type: "ADD_CHILD",
-        targetId: port.id,
-        payload: { newPort },
-      });
-    }, [mutationHandler, port.id]);
+    const addChild = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const newPort: Port = {
+          id: `id-${Date.now()}`,
+          name: "",
+          isEditable: true,
+          children: [],
+          isFirstElement: port.isFirstElement,
+        };
+        mutationHandler({
+          type: "ADD_CHILD",
+          targetId: port.id,
+          payload: { newPort },
+        });
+      },
+      [mutationHandler, port.id]
+    );
 
-    const remove = useCallback((e: React.MouseEvent) => {
-      e.stopPropagation();
-      mutationHandler({ type: "DELETE", targetId: port.id });
-      setIsSelected(false);
-    }, [mutationHandler, port.id]);
+    const remove = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        mutationHandler({ type: "DELETE", targetId: port.id });
+        setIsSelected(false);
+      },
+      [mutationHandler, port.id]
+    );
 
-    const toggleRO = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-      e.stopPropagation();
-      mutationHandler({ type: "TOGGLE_READONLY", targetId: port.id });
-    }, [mutationHandler, port.id]);
+    const toggleRO = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.stopPropagation();
+        mutationHandler({ type: "TOGGLE_READONLY", targetId: port.id });
+      },
+      [mutationHandler, port.id]
+    );
     // ----------------------------------------------
 
     const hasChildren = port.children && port.children.length > 0;
     const isRoot = depth === 0;
+    const isFirstElement = port.isFirstElement;
 
     const itemWrapperClasses = [
       "tree-item-wrapper",
       depth > 0 ? "nested-item" : "",
-    ].filter(Boolean).join(" ");
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     const itemContentClasses = [
       "tree-item-content",
       isSelected ? "is-selected" : "",
-    ].filter(Boolean).join(" ");
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     const controlsContainerClasses = [
       "controls-container",
       isSelected ? "controls-visible" : "",
-    ].filter(Boolean).join(" ");
+    ]
+      .filter(Boolean)
+      .join(" ");
     // ----------------------------------------------
 
     return (
@@ -96,24 +114,40 @@ const TreeItem: React.FC<Props> = React.memo(
             setIsSelected(false);
         }}
       >
-        {depth > 0 && (
+        {depth > 0 ? (
           <>
-            <div className={`connector-h ${isSelected ? "connector-selected" : ""}`} />
-            <div className={`connector-v ${isSelected ? "connector-selected" : ""} ${isLastRoot ? "connector-v-last" : ""}`} />
+            {!isLastRoot ? ( // <-- NEW CONDITION
+              <>
+                <div className={`connector-h ${ isSelected ? "connector-selected" : "" }`} />
+                <div  className={`connector-v ${ isSelected ? "connector-selected" : "" }`} />
+              </>
+            ):(
+              <>
+                <div className={`connector-h-last ${ isSelected ? "connector-selected" : "" }`} />
+                <div  className={`connector-v-last ${ isSelected ? "connector-selected" : "" }`} />
+              </> 
+            )}
+          </>
+        ):(
+          <>
+          {!isLastRoot ? (
+            <>
+              <div className={`root-item-connector-v ${ isSelected ? "connector-selected" : "" }`} />
+              <div className={`root-item-connector-h ${ isSelected ? "connector-selected" : "" }`} />
+            </>
+          ) : (
+            isFirstElement ? null : (
+              <>
+                <div className={`root-item-connector-v-last ${ isSelected ? "connector-selected" : "" }`} />
+                <div className={`root-item-connector-h-last ${ isSelected ? "connector-selected" : "" }`} />
+              </>
+            )
+          )}
           </>
         )}
-        
-        {isRoot && !isLastRoot ? (
-          <>
-            <div className="root-item-connector-v" />
-            <div className="root-item-connector-h" />
-          </>
-        ) : (
-          <>
-             <div className="root-item-connector-h-last" />
-          </>
-        )}
-        
+
+       
+
         <div
           className={itemContentClasses}
           onClick={(e) => {
@@ -121,7 +155,7 @@ const TreeItem: React.FC<Props> = React.memo(
             setIsSelected(true);
           }}
         >
-          <div className="input-area"> 
+          <div className="input-area">
             {isEditing ? (
               <input
                 ref={inputRef}
@@ -141,12 +175,17 @@ const TreeItem: React.FC<Props> = React.memo(
             ) : (
               <div className="port-input port-input-display">
                 <span
-                  className={`port-name-text ${port.isEditable ? "text-editable" : "text-read-only"}`}
+                  className={`port-name-text ${
+                    port.isEditable ? "text-editable" : "text-read-only"
+                  }`}
                   onDoubleClick={() => {
                     if (port.isEditable) setIsEditing(true);
                   }}
                 >
-                  {editedName} {!editedName && <span className="placeholder-text">(Unnamed)</span>}
+                  {editedName}{" "}
+                  {!editedName && (
+                    <span className="placeholder-text">(Unnamed)</span>
+                  )}
                 </span>
               </div>
             )}

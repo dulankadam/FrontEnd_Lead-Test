@@ -18,6 +18,7 @@ export interface Port {
     name: string;
     isEditable: boolean;
     children: Port[];
+    isFirstElement: boolean;
 }
 export type MutationAction = {
     type: 'UPDATE_NAME';

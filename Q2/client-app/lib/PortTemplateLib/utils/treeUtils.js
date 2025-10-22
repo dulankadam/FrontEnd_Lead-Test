@@ -1,8 +1,5 @@
-// Tree helpers and initial data. small fallbacks and clear logic.
 export const generateId = () => {
     try {
-        // prefer crypto if available
-        // @ts-ignore
         return typeof crypto !== "undefined" && crypto.randomUUID
             ? crypto.randomUUID()
             : `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
@@ -12,8 +9,8 @@ export const generateId = () => {
     }
 };
 export const initialPortData = [
-    { id: "root-0", name: "0", isEditable: true, children: [] },
-    { id: "root-1", name: "1", isEditable: true, children: [] },
+    { id: "root-0", name: "0", isEditable: true, children: [], isFirstElement: true },
+    { id: "root-1", name: "1", isEditable: true, children: [], isFirstElement: false },
     {
         id: "root-2",
         name: "2",
@@ -29,25 +26,19 @@ export const initialPortData = [
                         name: "2.0.0",
                         isEditable: false,
                         children: [],
+                        isFirstElement: false,
                     },
                 ],
+                isFirstElement: false,
             },
-            { id: "child-2-1", name: "2.1", isEditable: true, children: [] },
+            { id: "child-2-1", name: "2.1", isEditable: true, children: [], isFirstElement: false, },
         ],
+        isFirstElement: false,
     },
-    { id: "root-3", name: "3", isEditable: true, children: [] },
-    { id: "root-4", name: "4", isEditable: true, children: [] },
-    { id: "root-5", name: "5", isEditable: true, children: [] },
+    { id: "root-3", name: "3", isEditable: true, children: [], isFirstElement: false, },
+    { id: "root-4", name: "4", isEditable: true, children: [], isFirstElement: false, },
+    { id: "root-5", name: "5", isEditable: true, children: [], isFirstElement: false, },
 ];
-/**
- * Apply a mutation immutably.
- * - ADD_CHILD: append a child to target node
- * - UPDATE_NAME: rename target node
- * - TOGGLE_READONLY: flip isEditable flag
- * - DELETE: remove node (and its children)
- *
- * Note: children of deleted node are discarded in this implementation.
- */
 export const applyMutation = (ports, mutation) => {
     return ports.reduce((acc, port) => {
         if (port.id === mutation.targetId) {

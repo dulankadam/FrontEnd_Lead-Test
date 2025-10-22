@@ -53,6 +53,7 @@ const PortTemplate: React.FC<PortTemplateProps> = () => {
       name: "",
       isEditable: true,
       children: [],
+      isFirstElement: ports.length === 0,
     };
     setPorts((prevPorts) => [...prevPorts, newRoot]);
   };
@@ -67,6 +68,7 @@ const PortTemplate: React.FC<PortTemplateProps> = () => {
             depth={0}
             mutationHandler={mutationHandler}
             isLastRoot={idx === ports.length - 1}
+            isFirstElement={ports.length === 0 ? true : false}
           />
         ))}
       </div>

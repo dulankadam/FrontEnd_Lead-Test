@@ -27,6 +27,7 @@ export interface Port {
   name: string;
   isEditable: boolean;
   children: Port[]; // Ports can contain other Ports
+  isFirstElement:boolean;
 }
 
 export type MutationAction = 

@@ -11,8 +11,8 @@ export const generateId = (): string => {
 };
 
 export const initialPortData: Port[] = [
-  { id: "root-0", name: "0", isEditable: true, children: [] },
-  { id: "root-1", name: "1", isEditable: true, children: [] },
+  { id: "root-0", name: "0", isEditable: true, children: [], isFirstElement:true },
+  { id: "root-1", name: "1", isEditable: true, children: [], isFirstElement:false },
   {
     id: "root-2",
     name: "2",
@@ -28,15 +28,18 @@ export const initialPortData: Port[] = [
             name: "2.0.0",
             isEditable: false,
             children: [],
+            isFirstElement:false,
           },
         ],
+        isFirstElement:false,
       },
-      { id: "child-2-1", name: "2.1", isEditable: true, children: [] },
+      { id: "child-2-1", name: "2.1", isEditable: true, children: [],isFirstElement:false, },
     ],
+    isFirstElement:false,
   },
-  { id: "root-3", name: "3", isEditable: true, children: [] },
-  { id: "root-4", name: "4", isEditable: true, children: [] },
-  { id: "root-5", name: "5", isEditable: true, children: [] },
+  { id: "root-3", name: "3", isEditable: true, children: [],isFirstElement:false, },
+  { id: "root-4", name: "4", isEditable: true, children: [],isFirstElement:false, },
+  { id: "root-5", name: "5", isEditable: true, children: [],isFirstElement:false, },
 ];
 
 export const applyMutation = (

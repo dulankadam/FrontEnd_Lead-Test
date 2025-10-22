@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useCallback, useMemo, useState } from "react";
-import TreeItemComponent from "./TreeItem"; // Renamed import to avoid type collision
+import TreeItemComponent from "./TreeItem";
 import { Plus } from "lucide-react";
 const applyMutation = (ports, action) => {
     const findAndMutate = (items) => items
@@ -43,11 +43,12 @@ const PortTemplate = () => {
             name: "",
             isEditable: true,
             children: [],
+            isFirstElement: ports.length === 0,
         };
         setPorts((prevPorts) => [...prevPorts, newRoot]);
     };
     const PortTree = useMemo(() => {
-        return (_jsx("div", { className: "port-tree-container", children: ports.map((p, idx) => (_jsx(TreeItemComponent, { port: p, depth: 0, mutationHandler: mutationHandler, isLastRoot: idx === ports.length - 1 }, p.id))) }));
+        return (_jsx("div", { className: "port-tree-container", children: ports.map((p, idx) => (_jsx(TreeItemComponent, { port: p, depth: 0, mutationHandler: mutationHandler, isLastRoot: idx === ports.length - 1, isFirstElement: ports.length === 0 ? true : false }, p.id))) }));
     }, [ports, mutationHandler]);
     return (_jsxs("div", { className: "port-template-wrapper", children: [_jsx("div", { className: "port-template-header", children: _jsx("h2", { className: "port-template-title", children: "Port Template" }) }), _jsxs("div", { className: "port-template-actions", children: [_jsx("button", { onClick: addRoot, title: "Add root port", className: "add-root-btn", children: _jsx(Plus, { size: 16 }) }), _jsxs("div", { className: "action-buttons-group", children: [_jsx("button", { className: "btn-back", children: "Back" }), _jsx("button", { className: "btn-save", children: "Save" })] })] }), _jsx("div", { className: "port-template-content", children: _jsx("div", { className: "tree-structure-area", children: PortTree }) })] }));
 };
