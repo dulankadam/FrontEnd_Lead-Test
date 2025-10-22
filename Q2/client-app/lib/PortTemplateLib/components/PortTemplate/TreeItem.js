@@ -1,7 +1,6 @@
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
-// src/components/PortTemplate/TreeItem.tsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 const TreeItem = React.memo(({ port, depth, mutationHandler, isLastRoot }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(port.name);
@@ -91,7 +90,7 @@ const TreeItem = React.memo(({ port, depth, mutationHandler, isLastRoot }) => {
                             }, className: "port-input port-input-editing", placeholder: "Enter Port Name" })) : (_jsx("div", { className: "port-input port-input-display", children: _jsxs("span", { className: `port-name-text ${port.isEditable ? "text-editable" : "text-read-only"}`, onDoubleClick: () => {
                                     if (port.isEditable)
                                         setIsEditing(true);
-                                }, children: [editedName, " ", !editedName && (_jsx("span", { className: "placeholder-text", children: "(Unnamed)" }))] }) })) }), _jsx("div", { className: controlsContainerClasses, children: isSelected && (_jsxs("div", { className: "contextual-controls-box", children: [_jsxs("div", { className: "control-group-ro", children: [_jsx("span", { className: "control-label", children: "Read only" }), _jsxs("label", { className: "toggle-switch-sm", children: [_jsx("input", { type: "checkbox", checked: !port.isEditable, onChange: toggleRO, className: "sr-only" }), _jsx("div", { className: "slider-sm-base" })] })] }), _jsx("button", { onClick: remove, title: "Delete", className: "control-btn control-btn-delete", children: _jsx(X, { size: 18 }) }), _jsx("button", { onClick: addChild, title: "Add child", className: "control-btn control-btn-add", children: _jsx(Plus, { size: 18 }) })] })) })] }), hasChildren && (_jsx("div", { className: "children-container", children: port.children.map((child, idx) => (_jsx(TreeItem // Recursive call
+                                }, children: [editedName, " ", !editedName && (_jsx("span", { className: "placeholder-text", children: "(Unnamed)" }))] }) })) }), _jsx("div", { className: controlsContainerClasses, children: isSelected && (_jsxs(_Fragment, { children: [_jsxs("div", { className: "contextual-controls-box", children: [_jsxs("div", { className: "control-group-ro", children: [_jsx("span", { className: "control-label", children: "Read only" }), _jsxs("label", { className: "toggle-switch-sm", children: [_jsx("input", { type: "checkbox", checked: !port.isEditable, onChange: toggleRO, className: "sr-only" }), _jsx("div", { className: "slider-sm-base" })] })] }), _jsx("button", { onClick: remove, title: "Delete", className: "control-btn control-btn-delete", children: _jsx(Trash2, { size: 18 }) })] }), _jsx("button", { onClick: addChild, title: "Add child", className: "control-btn control-btn-add", children: _jsx(Plus, { size: 18 }) })] })) })] }), hasChildren && (_jsx("div", { className: "children-container", children: port.children.map((child, idx) => (_jsx(TreeItem // Recursive call
                 , { port: child, depth: depth + 1, mutationHandler: mutationHandler, isLastRoot: idx === port.children.length - 1 }, child.id))) }))] }));
 });
 export default TreeItem;

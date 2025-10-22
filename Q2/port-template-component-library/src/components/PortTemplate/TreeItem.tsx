@@ -1,7 +1,5 @@
-// src/components/PortTemplate/TreeItem.tsx
-
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronRight, Plus, X } from "lucide-react";
+import { ChevronRight, Plus, Trash2 } from "lucide-react";
 import { Port, MutationHandler } from "../../types";
 
 interface Props {
@@ -193,6 +191,7 @@ const TreeItem: React.FC<Props> = React.memo(
 
           <div className={controlsContainerClasses}>
             {isSelected && (
+              <>
               <div className="contextual-controls-box">
                 <div className="control-group-ro">
                   <span className="control-label">Read only</span>
@@ -212,17 +211,18 @@ const TreeItem: React.FC<Props> = React.memo(
                   title="Delete"
                   className="control-btn control-btn-delete"
                 >
-                  <X size={18} />
+                  <Trash2 size={18} />
                 </button>
+              </div>
 
-                <button
+              <button
                   onClick={addChild}
                   title="Add child"
                   className="control-btn control-btn-add"
                 >
                   <Plus size={18} />
                 </button>
-              </div>
+              </>
             )}
           </div>
         </div>
